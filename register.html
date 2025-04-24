@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaEasy Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <img src="Image/AquaEasy.png" alt="AquaEasy Logo" class="logo">
+        <h2>Create Account</h2>
+        <div class="input-group">
+            <input type="text" placeholder="Full Name">
+        </div>
+        <div class="input-group">
+            <input type="email" placeholder="Email">
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Username">
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Password">
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Confirm Password">
+        </div>
+        <button class="login-btn">Register</button>
+        <a href="index.html" class="create-account">Already have an account? Login</a>
+    </div>
+    <script>
+        document.querySelector('a').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.body.style.opacity = '0';
+            document.body.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 300);
+        });
+    </script>
+</body>
+</html>
