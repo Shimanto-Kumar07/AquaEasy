@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaControl Pro - Smart Fish Tank Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <img src="/Images/AquaEasy.png" alt="AquaControl" class="logo">
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </li>
+                <li class="nav-item" data-page="lights">
+                    <i class="fas fa-lightbulb"></i> Lighting
+                </li>
+                <li class="nav-item" data-page="feeding">
+                    <i class="fas fa-utensils"></i> Feeding
+                </li>
+                <li class="nav-item" data-page="camera">
+                    <i class="fas fa-video"></i> Camera
+                </li>
+                <li class="nav-item" data-page="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard -->
+            <div class="page active" id="dashboard">
+                <h1>AquaControl Dashboard</h1>
+                <div class="dashboard-grid">
+                    <!-- Temperature Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-thermometer-half"></i>
+                            Water Temperature
+                        </div>
+                        <div class="sensor-value">25.5°C</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lighting Control -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-sun"></i>
+                            Lighting System
+                        </div>
+                        <div class="control-group">
+                            <label class="switch">
+                                <input type="checkbox" id="mainLight" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <input type="range" class="brightness-slider" min="0" max="100" value="75">
+                        </div>
+                    </div>
+
+                    <!-- Feeding Control -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-clock"></i>
+                            Feeding Schedule
+                        </div>
+                        <button class="btn">
+                            <i class="fas fa-utensils"></i> Feed Now
+                        </button>
+                        <div class="schedule-list">
+                            <div class="schedule-item">08:00 AM</div>
+                            <div class="schedule-item">12:00 PM</div>
+                            <div class="schedule-item">06:00 PM</div>
+                        </div>
+                    </div>
+
+                    <!-- Water Quality -->
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-flask"></i>
+                            Water Quality
+                        </div>
+                        <div class="quality-metrics">
+                            <div class="metric">
+                                <span>pH Level</span>
+                                <span class="value">7.2</span>
+                            </div>
+                            <div class="metric">
+                                <span>Ammonia</span>
+                                <span class="value">0.2ppm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Camera Preview -->
+                    <div class="card full-width">
+                        <div class="card-header">
+                            <i class="fas fa-video"></i>
+                            Live Camera Feed
+                        </div>
+                        <div class="camera-container">
+                            <div class="camera-feed"></div>
+                            <div class="camera-controls">
+                                <button class="btn">
+                                    <i class="fas fa-camera"></i> Snapshot
+                                </button>
+                                <button class="btn">
+                                    <i class="fas fa-record-vinyl"></i> Record
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lighting Page -->
+            <div class="page" id="lights">
+                <h1>Lighting Controls</h1>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-lightbulb"></i>
+                            Main Lights
+                        </div>
+                        <div class="control-group">
+                            <label class="switch">
+                                <input type="checkbox" id="mainLights" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <input type="range" class="brightness-slider" min="0" max="100" value="75">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-clock"></i>
+                            Light Schedule
+                        </div>
+                        <div class="schedule-controls">
+                            <div class="time-picker">
+                                <label>On Time:</label>
+                                <input type="time" value="08:00">
+                            </div>
+                            <div class="time-picker">
+                                <label>Off Time:</label>
+                                <input type="time" value="20:00">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feeding Page -->
+            <div class="page" id="feeding">
+                <h1>Feeding Controls</h1>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-utensils"></i>
+                            Manual Feeding
+                        </div>
+                        <button class="btn feed-now">
+                            <i class="fas fa-hand-pointer"></i> Feed Now
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-clock"></i>
+                            Feeding Schedule
+                        </div>
+                        <div class="schedule-editor">
+                            <div class="schedule-item">
+                                <input type="time" value="08:00">
+                                <button class="btn btn-small">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-add">
+                                <i class="fas fa-plus"></i> Add Schedule
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-history"></i>
+                            Feeding History
+                        </div>
+                        <div class="feeding-history">
+                            <div class="history-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Fed at 08:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Camera Page -->
+            <div class="page" id="camera">
+                <h1>Camera Controls</h1>
+                <div class="dashboard-grid">
+                    <div class="card full-width">
+                        <div class="card-header">
+                            <i class="fas fa-video"></i>
+                            Live Feed
+                        </div>
+                        <div class="camera-container" style="height: 500px; display: flex; flex-direction: column;">
+                            <div class="camera-feed" style="flex: 1; width: 100%; background: #1a1a1a;"></div>
+                            <div class="camera-controls" style="position: static; transform: none; margin-top: 1rem; justify-content: center; width: 100%;">
+                                <button class="btn">
+                                    <i class="fas fa-expand"></i> Fullscreen
+                                </button>
+                                <button class="btn">
+                                    <i class="fas fa-record-vinyl"></i> Record
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page" id="settings">
+                <h1>System Settings</h1>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-wifi"></i>
+                            Network Settings
+                        </div>
+                        <div class="settings-group">
+                            <label>Wi-Fi SSID</label>
+                            <input type="text" placeholder="Network Name">
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-bell"></i>
+                            Notifications
+                        </div>
+                        <div class="notification-settings" style="padding: 1.5rem; background: rgba(0,121,107,0.05); border-radius: 10px; max-width: 100%;">
+                            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: nowrap;">
+                                <label class="switch" style="min-width: 50px; flex-shrink: 0;">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                                <span style="color: var(--secondary);">Temperature Alerts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Navigation System
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Initialize Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const pageId = this.dataset.page;
+                showPage(pageId);
+                if(window.innerWidth <= 1200) {
+                    toggleSidebar();
+                }
+            });
+        });
+
+        // Real-time Data Simulation
+        setInterval(() => {
+            const tempElements = document.querySelectorAll('.sensor-value');
+            tempElements.forEach(el => {
+                if(el.innerHTML.includes('°C')) {
+                    const newTemp = (Math.random() * 5 + 22).toFixed(1);
+                    el.textContent = `${newTemp}°C`;
+                }
+            });
+        }, 5000);
+
+        // Light Controls
+        document.querySelectorAll('.switch input').forEach(sw => {
+            sw.addEventListener('change', () => {
+                console.log(`Light ${sw.checked ? 'ON' : 'OFF'}`);
+            });
+        });
+
+        // Feeding System
+        document.querySelectorAll('.feed-now').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <i class="fas fa-clock"></i>
+                    <span>Fed at ${new Date().toLocaleTimeString()}</span>
+                `;
+                document.querySelector('.feeding-history').prepend(historyItem);
+            });
+        });
+
+        // Responsive Handling
+        window.addEventListener('resize', () => {
+            if(window.innerWidth > 1200) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        });
+
+        // Hide menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (window.innerWidth <= 1200 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
