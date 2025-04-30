@@ -1,17 +1,17 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { FirebaseService } from "../../services/core/firebase.service";
 import { Database, ref, set } from "@angular/fire/database";
-
+ 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
-})
+}) 
 export class HomeComponent implements OnInit {
   currentPage = "dashboard";
   temperature = "25.5°C";
   sidebarActive = false;
-
+  public automate:Boolean;
   public logs: any;
   public status: any;
 
@@ -50,6 +50,26 @@ export class HomeComponent implements OnInit {
     ) {
       this.sidebarActive = false;
     }
+  }
+
+
+  public toggleAutomate(event: Event) {
+    this.automate = !this.automate;
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if(isChecked){
+      const ledRef = ref(this.db, "FISH-TANK/status/servo");
+      // console.log(ledRef);
+      
+      set(ledRef, "auto")
+        .then(() => console.log("LED status updated"))
+        .catch((error) => console.error("Error updating LED:", error));
+    }else if (!isChecked){
+      const ledRef = ref(this.db, "FISH-TANK/status/servo");
+      set(ledRef, "idle")
+        .then(() => console.log("LED status updated"))
+        .catch((error) => console.error("Error updating LED:", error));
+    }
+
   }
 
   public toggleMainLight(event: Event) {
@@ -105,6 +125,13 @@ export class HomeComponent implements OnInit {
   private getStatus() {
     this.firebaseService.getStatus().then((res: any) => {
       this.status = res;
+      if (this.status.servo === "auto") {
+        this.automate = true;
+      } else {
+        this.automate = false;
+      }
+      // console.log(this.automate);
+      
       console.log("status", res);
     });
   }
