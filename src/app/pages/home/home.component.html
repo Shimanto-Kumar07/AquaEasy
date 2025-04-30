@@ -2,7 +2,7 @@
   <button class="menu-toggle" (click)="toggleSidebar()">
     <i class="fas fa-bars"></i>
   </button>
-
+ 
   <!-- Sidebar -->
   <nav class="sidebar" [class.active]="sidebarActive" id="sidebar">
     <img src="/Images/AquaEasy.png" alt="AquaControl" class="logo" />
@@ -119,10 +119,30 @@
               value="75"
             />
           </div>
-        </div>
+        </div> 
+
+                <!-- Automation Control -->
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fas fa-sun"></i>
+                    Automate System
+                  </div>
+                  <div class="control-group">
+                    <label class="switch">
+                      <input
+                        type="checkbox"
+                        id="mainLight"
+                        [checked]="automate"
+                        (change)="toggleAutomate($event)"
+                      />
+                      <span class="slider"></span>
+                    </label>
+
+                  </div>
+                </div> 
 
         <!-- Feeding Control -->
-        <div class="card">
+        <div class="card" *ngIf="!automate">
           <div class="card-header">
             <i class="fas fa-clock"></i>
             Feeding Schedule
