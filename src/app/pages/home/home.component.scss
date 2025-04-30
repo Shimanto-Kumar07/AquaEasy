@@ -1,0 +1,269 @@
+// Core Variables
+$primary: #00796b;
+$secondary: #004d40;
+$accent: #00bfa5;
+$card-bg: rgba(255, 255, 255, 0.98);
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 2rem;
+$border-radius: 16px;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-styles {
+  background: $card-bg;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+// General Styles
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f7f6;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.app-container {
+  display: flex;
+}
+
+.menu-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: $primary;
+  color: white;
+  border: none;
+  padding: $spacing-sm $spacing-md;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: $secondary;
+  padding: $spacing-lg $spacing-md;
+  position: fixed;
+  top: 0;
+  left: -260px;
+  transition: left 0.3s ease;
+
+  &.active {
+    left: 0;
+  }
+
+  .logo {
+    width: 100%;
+    margin-bottom: $spacing-md;
+  }
+
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+
+    .nav-item {
+      color: white;
+      padding: $spacing-sm;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-bottom: $spacing-sm;
+      transition: background 0.2s;
+
+      i {
+        margin-right: $spacing-sm;
+      }
+
+      &:hover,
+      &.active {
+        background: $accent;
+      }
+    }
+  }
+}
+
+.main-content {
+  margin-left: 0;
+  padding: $spacing-lg;
+  width: 100%;
+  transition: margin-left 0.3s ease;
+
+  .page {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: $spacing-lg;
+  }
+
+  .card {
+    @include card-styles;
+
+    &.full-width {
+      grid-column: span 2;
+    }
+
+    .card-header {
+      font-weight: bold;
+      margin-bottom: $spacing-sm;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $secondary;
+
+      i {
+        color: $primary;
+      }
+    }
+
+    .sensor-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: $spacing-sm;
+    }
+
+    .progress-bar {
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 10px;
+
+      .progress-fill {
+        background: $primary;
+        height: 100%;
+      }
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-sm;
+
+      .brightness-slider {
+        width: 100%;
+      }
+    }
+
+    .quality-metrics {
+      .metric {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacing-sm;
+
+        .value {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .camera-container {
+      position: relative;
+
+      .camera-feed {
+        background: #1a1a1a;
+        height: 300px;
+      }
+
+      .camera-controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: $spacing-sm;
+      }
+    }
+
+    .schedule-editor,
+    .feeding-history {
+      .schedule-item,
+      .history-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-sm 0;
+
+        i {
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  .btn {
+    background: $primary;
+    color: white;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &.btn-add {
+      background: $accent;
+    }
+
+    &.btn-small {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+
+      &::before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 4px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+    }
+
+    input:checked + .slider {
+      background-color: $accent;
+    }
+
+    input:checked + .slider::before {
+      transform: translateX(26px);
+    }
+  }
+}

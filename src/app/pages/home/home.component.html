@@ -1,0 +1,368 @@
+<div class="app-container">
+  <button class="menu-toggle" (click)="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" [class.active]="sidebarActive" id="sidebar">
+    <img src="/Images/AquaEasy.png" alt="AquaControl" class="logo" />
+    <ul class="nav-menu">
+      <li
+        class="nav-item"
+        [class.active]="currentPage === 'dashboard'"
+        (click)="showPage('dashboard')"
+      >
+        <i class="fas fa-home"></i> Dashboard
+      </li>
+      <li
+        class="nav-item"
+        [class.active]="currentPage === 'lights'"
+        (click)="showPage('lights')"
+      >
+        <i class="fas fa-lightbulb"></i> Lighting
+      </li>
+      <li
+        class="nav-item"
+        [class.active]="currentPage === 'feeding'"
+        (click)="showPage('feeding')"
+      >
+        <i class="fas fa-utensils"></i> Feeding
+      </li>
+      <li
+        class="nav-item"
+        [class.active]="currentPage === 'camera'"
+        (click)="showPage('camera')"
+      >
+        <i class="fas fa-video"></i> Camera
+      </li>
+      <li
+        class="nav-item"
+        [class.active]="currentPage === 'settings'"
+        (click)="showPage('settings')"
+      >
+        <i class="fas fa-cog"></i> Settings
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Dashboard -->
+    <div class="page" [class.active]="currentPage === 'dashboard'">
+      <h1>AquaControl Dashboard</h1>
+      <div class="dashboard-grid">
+        <!-- Temperature Card -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-thermometer-half"></i>
+            Water Temperature
+          </div>
+          <div class="sensor-value">{{ status.temperature  | number  }}°C</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%"></div>
+          </div>
+        </div>
+
+        <!-- Water Quality -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-flask"></i>
+            Water Quality
+          </div>
+          <div class="quality-metrics">
+            <div class="metric">
+              <span>pH Level</span>
+              <span class="value">{{status.pH | number:'1.2-2' }}</span>
+            </div>
+            <!-- <div class="metric">
+              <span>Ammonia</span>
+              <span class="value">0.2ppm</span>
+            </div> -->
+          </div>
+        </div>
+
+        <!-- Water Quality -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-flask"></i>
+            Water Level
+          </div>
+          <div class="quality-metrics">
+            <div class="sensor-value">{{ status.waterLevel }}</div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lighting Control -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-sun"></i>
+            Lighting System
+          </div>
+          <div class="control-group">
+            <label class="switch">
+              <input
+                type="checkbox"
+                id="mainLight"
+                [checked]="status.led"
+                (change)="toggleMainLight($event)"
+              />
+              <span class="slider"></span>
+            </label>
+            <input
+              type="range"
+              class="brightness-slider"
+              min="0"
+              max="100"
+              value="75"
+            />
+          </div>
+        </div>
+
+        <!-- Feeding Control -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-clock"></i>
+            Feeding Schedule
+          </div>
+          <button class="btn" (click)="feedNow()">
+            <!-- <i class="fas fa-utensils"></i>  -->
+            {{ status.servo === "idle" ? "Feed Now" : "Feeding..." }}
+          </button>
+          <!-- <div class="schedule-list">
+              <div class="schedule-item">08:00 AM</div>
+              <div class="schedule-item">12:00 PM</div>
+              <div class="schedule-item">06:00 PM</div>
+            </div> -->
+        </div>
+
+        <!-- Pump Control -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-sun"></i>
+            Water Pump
+          </div>
+          <div class="control-group">
+            <label class="switch">
+              <input
+                type="checkbox"
+                id="mainLight"
+                [checked]="status.pump"
+                (change)="togglePump($event)"
+              />
+              <span class="slider"></span>
+            </label>
+            <input
+              type="range"
+              class="brightness-slider"
+              min="0"
+              max="100"
+              value="75"
+            />
+          </div>
+        </div>
+
+        
+      </div>
+
+      <!-- Camera Preview -->
+      <div class="card full-width">
+        <div class="card-header">
+          <i class="fas fa-video"></i>
+          Live Camera Feed
+        </div>
+        <div class="camera-container">
+          <div class="camera-feed"></div>
+          <div class="camera-controls">
+            <button class="btn">
+              <i class="fas fa-camera"></i> Snapshot
+            </button>
+            <button class="btn">
+              <i class="fas fa-record-vinyl"></i> Record
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lighting Page -->
+    <div class="page" [class.active]="currentPage === 'lights'">
+      <h1>Lighting Controls</h1>
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-lightbulb"></i>
+            Main Lights
+          </div>
+          <div class="control-group">
+            <label class="switch">
+              <input type="checkbox" id="mainLights" checked />
+              <span class="slider"></span>
+            </label>
+            <input
+              type="range"
+              class="brightness-slider"
+              min="0"
+              max="100"
+              value="75"
+            />
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-clock"></i>
+            Light Schedule
+          </div>
+          <div class="schedule-controls">
+            <div class="time-picker">
+              <label>On Time:</label>
+              <input type="time" value="08:00" />
+            </div>
+            <div class="time-picker">
+              <label>Off Time:</label>
+              <input type="time" value="20:00" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feeding Page -->
+    <div class="page" [class.active]="currentPage === 'feeding'">
+      <h1>Feeding Controls</h1>
+      <div class="dashboard-grid">
+        <div class="card">
+          <!-- <div class="card-header">
+              <i class="fas fa-utensils"></i>
+              Manual Feeding
+            </div> -->
+          <button class="btn feed-now" (click)="feedNow()">
+            <!-- <i class="fas fa-hand-pointer"></i>  -->
+            {{ status.servo === "idle" ? "Feed Now" : "Feeding..." }}
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-clock"></i>
+            Feeding Schedule
+          </div>
+          <div class="schedule-editor">
+            <div class="schedule-item">
+              <input type="time" value="08:00" />
+              <button class="btn btn-small">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+            <button class="btn btn-add">
+              <i class="fas fa-plus"></i> Add Schedule
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-history"></i>
+            Feeding History
+          </div>
+          <div class="feeding-history">
+            <div class="history-item">
+              <i class="fas fa-clock"></i>
+              <span>Fed at 08:00 AM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Camera Page -->
+    <div class="page" [class.active]="currentPage === 'camera'">
+      <h1>Camera Controls</h1>
+      <div class="dashboard-grid">
+        <div class="card full-width">
+          <div class="card-header">
+            <i class="fas fa-video"></i>
+            Live Feed
+          </div>
+          <div
+            class="camera-container"
+            style="height: 500px; display: flex; flex-direction: column"
+          >
+            <div
+              class="camera-feed"
+              style="flex: 1; width: 100%; background: #1a1a1a"
+            ></div>
+            <div
+              class="camera-controls"
+              style="
+                position: static;
+                transform: none;
+                margin-top: 1rem;
+                justify-content: center;
+                width: 100%;
+              "
+            >
+              <button class="btn">
+                <i class="fas fa-expand"></i> Fullscreen
+              </button>
+              <button class="btn">
+                <i class="fas fa-record-vinyl"></i> Record
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div class="page" [class.active]="currentPage === 'settings'">
+      <h1>System Settings</h1>
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-wifi"></i>
+            Network Settings
+          </div>
+          <div class="settings-group">
+            <label>Wi-Fi SSID</label>
+            <input type="text" placeholder="Network Name" />
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-bell"></i>
+            Notifications
+          </div>
+          <div
+            class="notification-settings"
+            style="
+              padding: 1.5rem;
+              background: rgba(0, 121, 107, 0.05);
+              border-radius: 10px;
+              max-width: 100%;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                flex-wrap: nowrap;
+              "
+            >
+              <label class="switch" style="min-width: 50px; flex-shrink: 0">
+                <input type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+              <span style="color: var(--secondary)">Temperature Alerts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
