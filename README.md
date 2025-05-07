@@ -32,5 +32,9 @@
 
 # Powered By
 - Computer Science & Engineering
+- Batch 14th
+- Group Team Pheonix
 - Khwaja Yunus Ali University
 # Angular-17-Base-Ui
+# Live Link
+https://tankeasy.netlify.app/
